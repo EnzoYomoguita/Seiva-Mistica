@@ -1,0 +1,33 @@
+:host { display: block; position: sticky; top: 0; z-index: 100; }
+.header-inner { max-width: 1800px; min-height: 100px; padding: 22px 32px; gap: 28px; }
+.nav { flex-wrap: nowrap; gap: 16px; min-width: 0; }
+.nav a { white-space: nowrap; font-size: 12px; letter-spacing: .08em; }
+.badge { flex-shrink: 0; min-width: 1.6em; width: max-content; }
+.conta-header { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.usuario-nome { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.btn-sair { white-space: nowrap; padding: 9px 15px; }
+@media (max-width: 1450px) {
+  .menu-toggle { display: flex; }
+  .nav { position: absolute; top: 100%; left: 0; right: 0; background: var(--branco); flex-direction: column; align-items: stretch; gap: 0; padding: 0 24px; max-height: 0; overflow: hidden; border-bottom: 1px solid #ddd; }
+  .nav.open { max-height: calc(100dvh - 110px); overflow-y: auto; padding: 14px 24px 22px; }
+  .nav a { padding: 12px 0; width: 100%; }
+  .nav a::after { display: none; }
+  .conta-header { padding: 14px 0 0; justify-content: space-between; }
+  .usuario-nome { max-width: 65vw; }
+  .nav a.btn-login { display: inline-flex; padding: 14px 24px; }
+}
+
+.logo-mark { width: 54px; height: 54px; }
+.logo-text strong { font-size: 22px; }
+.logo-text span { font-size: 9px; }
+.nav a.admin-link { color: var(--creme); background: var(--petroleo); border: 1px solid var(--petroleo); border-radius: 7px; padding: 9px 11px; font-weight: 600; }
+.nav a.admin-link:hover, .nav a.admin-link.active { background: #254955; color: #fff; border-color: #31535e; }
+.nav a.admin-link::after { display: none; }
+@media (max-width: 1450px) {
+  .nav a.admin-link { margin: 4px 0; padding: 12px; }
+}
+@media (max-width: 480px) {
+  .header-inner { padding: 18px; gap: 12px; }
+  .logo-text strong { font-size: 18px; }
+  .logo-text span { font-size: 7px; }
+}

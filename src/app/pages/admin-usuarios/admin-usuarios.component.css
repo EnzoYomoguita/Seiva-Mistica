@@ -1,0 +1,31 @@
+:host { display: block; }
+.usuarios-page { width: 100%; }
+.campos { border: 0; padding: 0; margin: 36px 0 8px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 24px; }
+.campos legend { font-family: var(--serif); font-size: 26px; padding-bottom: 24px; }
+mat-form-field { width: 100%; }
+.perfil-ajuda { align-self: center; color: var(--cinza); font-size: 14px; }
+.acoes { display: flex; justify-content: flex-end; margin: 20px 0 48px; }
+.lista-titulo { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin: 24px 0; }
+h3 { font-family: var(--serif); font-size: 26px; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+caption { text-align: left; color: var(--cinza); font-size: 13px; padding-bottom: 12px; }
+th, td { padding: 14px 12px; border-bottom: 1px solid #dedbd2; overflow-wrap: anywhere; }
+th { color: var(--petroleo); }
+.perfil { display: inline-block; border-radius: 20px; padding: 4px 12px; background: #ebe9df; font-size: 13px; }
+.administrador { background: #dce5cf; color: #30442b; }
+.sucesso { color: #30502c; }
+@media (max-width: 720px) {
+  .campos { grid-template-columns: minmax(0,1fr); }
+  .lista-titulo { flex-direction: column; align-items: flex-start; }
+  th, td { padding: 10px 8px; font-size: 13px; }
+}
+
+.cadastrar-usuario:not(:disabled) { background-color: var(--oliva); color: var(--branco); }
+.cadastrar-usuario:not(:disabled):hover { background-color: var(--oliva-escuro); }
+.preferencias-admin { grid-column: 1 / -1; border: 1px solid #dedbd1; border-radius: 8px; padding: 16px; }
+.campos .preferencias-admin legend { font-family: inherit; font-size: 16px; padding: 0 6px; }
+.preferencias-admin p { margin: 0 0 12px; font-size: 13px; }
+.preferencias-admin label { display: inline-flex; align-items: center; gap: 8px; margin: 8px 20px 8px 0; cursor: pointer; }
+.preferencias-admin input { accent-color: var(--oliva); width: 18px; height: 18px; }
+.excluir-usuario:not(:disabled) { color: #983e38; border-color: #d9b5b1; }
+td button { margin: 4px 8px 4px 0; }

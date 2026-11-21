@@ -1,0 +1,81 @@
+<section class="admin-page usuarios-page">
+  <a routerLink="/admin" class="voltar">Voltar à administração de produtos</a>
+  <div class="catalogo-card">
+    <div class="catalogo-head">
+      <span class="logo-mark"><img src="assets/logo.png" alt="Seiva Mística" /></span>
+      <h2>Gerenciar usuários</h2><div class="divider"></div>
+      <p class="admin-sub">Cadastre novas contas e gerencie o perfil dos usuários existentes.</p>
+    </div>
+    <form (ngSubmit)="salvar()" novalidate>
+      <fieldset [disabled]="enviando || carregando || salvandoId !== null" class="campos">
+        <legend>Novo usuário</legend>
+        <mat-form-field appearance="outline">
+          <mat-label>Nome completo</mat-label>
+          <input matInput name="nome" [(ngModel)]="novo.nome" (ngModelChange)="atualizarErro()" required autocomplete="off">
+          <mat-hint>Entre 3 e 80 caracteres</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>CPF</mat-label>
+          <input matInput name="cpf" [ngModel]="novo.cpf" (ngModelChange)="mascararCpf($event)" maxlength="14" inputmode="numeric" required autocomplete="off">
+          <mat-hint>11 dígitos, com validação dos verificadores</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="novo.email" (ngModelChange)="atualizarErro()" required autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Senha inicial</mat-label>
+          <input matInput type="password" name="senha" [(ngModel)]="novo.senha" (ngModelChange)="atualizarErro()" required autocomplete="new-password">
+          <mat-hint>Entre 6 e 64 caracteres</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Perfil de acesso</mat-label>
+          <mat-select name="admin" [(ngModel)]="novo.admin" (ngModelChange)="atualizarErro()" [disabled]="enviando || carregando || salvandoId !== null">
+            <mat-option [value]="false">Cliente</mat-option>
+            <mat-option [value]="true">Administrador</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p class="perfil-ajuda">Cliente pode comprar e consultar seus pedidos. Administrador também pode gerenciar produtos, usuários e acessar relatórios.</p>
+        <fieldset class="preferencias-admin">
+          <legend>Preferências</legend>
+          <p>Selecione os interesses deste usuário (opcional).</p>
+          <label *ngFor="let preferencia of preferenciasDisponiveis">
+            <input type="checkbox" #opcao [checked]="novo.preferencias?.includes(preferencia) ?? false"
+              (change)="alternarPreferencia(preferencia, opcao.checked)">
+            {{ preferencia }}
+          </label>
+        </fieldset>
+      </fieldset>
+      <p class="status erro" role="alert" *ngIf="erroCadastro">{{ erroCadastro }}</p>
+      <p class="status sucesso" role="status" *ngIf="sucessoCadastro">{{ sucessoCadastro }}</p>
+      <div class="acoes">
+        <button mat-flat-button class="cadastrar-usuario" type="submit" [disabled]="enviando || carregando || salvandoId !== null">{{ enviando ? 'Salvando...' : 'Cadastrar usuário' }}</button>
+      </div>
+    </form>
+
+    <p class="status erro" role="alert" *ngIf="erro">{{ erro }}</p>
+    <p class="status sucesso" role="status" *ngIf="sucesso">{{ sucesso }}</p>
+    <div class="lista-titulo"><h3>Usuários cadastrados ({{ usuarios.length }})</h3>
+      <button mat-stroked-button (click)="carregar()" [disabled]="carregando || enviando || salvandoId !== null">Atualizar lista</button>
+    </div>
+    <p *ngIf="carregando" role="status">Carregando usuários...</p>
+    <div class="tabela-wrap" *ngIf="!carregando">
+      <table><caption>Altere o perfil de contas já cadastradas. Sua própria conta permanece protegida.</caption>
+        <thead><tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Perfil</th><th scope="col">Ação</th></tr></thead>
+        <tbody><tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.nome }}</td><td>{{ usuario.email }}</td>
+          <td><span class="perfil" [class.administrador]="usuario.admin === true">{{ usuario.admin === true ? 'Administrador' : 'Cliente' }}</span></td>
+          <td><span *ngIf="propriaConta(usuario); else acao">Sua conta</span>
+            <ng-template #acao><button mat-stroked-button (click)="alterarPerfil(usuario)" [disabled]="enviando || salvandoId !== null || usuario.id == null">
+              {{ salvandoId === usuario.id ? 'Aguarde...' : usuario.admin === true ? 'Tornar cliente' : 'Tornar administrador' }}
+            </button>
+              <button mat-stroked-button class="excluir-usuario" (click)="excluirUsuario(usuario)"
+                [disabled]="enviando || salvandoId !== null || usuario.id == null"
+                [attr.aria-label]="'Excluir conta de ' + usuario.nome">Excluir conta</button>
+            </ng-template>
+          </td>
+        </tr><tr *ngIf="usuarios.length === 0"><td colspan="4">Nenhum usuário encontrado.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
